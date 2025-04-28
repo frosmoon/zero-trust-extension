@@ -1,0 +1,45 @@
+{
+    "manifest_version": 3,
+    "name": "Zero Trust Web Guardian",
+    "version": "0.1",
+    "description": "Blocks redirects, prevents fingerprinting, and filters adult content with a zero-trust approach.",
+    "permissions": [
+      "webRequest",
+      "webRequestBlocking",
+      "declarativeNetRequest",
+      "tabs",
+      "storage",
+      "scripting"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "options_page": "html/dns-to-js-domain-converter.html",
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["js/fingerprint_patch.js"],
+        "run_at": "document_start"
+      }
+    ],
+    "declarative_net_request": {
+      "rule_resources": [{
+        "id": "blocklist",
+        "enabled": true,
+        "path": "assets/rules.json"
+      }]
+    },
+    "action": {
+      "default_popup": "html/popup.html",
+      "default_icon": {
+        "16": "assets/icon16.png",
+        "32": "assets/icon32.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png"
+      }
+    }
+  }
+  
